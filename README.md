@@ -5,9 +5,6 @@
 rct-mail-tracker/
 ├── index.html           # 主应用程序文件
 ├── README.md            # 项目说明文档（中英文）
-├── LICENSE              # MIT许可证文件
-└── docs/                # 文档目录
-    └── screenshots/     # 截图目录
 ```
 
 ## 主要文件说明
