@@ -3,26 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TJU&UIBE疫苗RCT实验统计系统</title>
+    <title>疫苗RCT志愿者发送统计系统</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.8/dist/chart.umd.min.js"></script>
-    <style>
-        /* Footer */
-        .footer {
-            text-align: center;
-            padding: 3rem 2rem 2rem;
-            color: #666;
-            font-size: 0.9rem;
-            border-top: 1px solid #ddd;
-            margin-top: 4rem;
-            background: #fff;
-        }
-
-        .footer-text {
-            font-style: italic;
-        }
-    </style>
+    
     <script>
         tailwind.config = {
             theme: {
@@ -42,27 +27,29 @@
                     animation: {
                         'fade-in': 'fadeIn 0.5s ease-in-out',
                         'slide-up': 'slideUp 0.6s ease-out',
-                        'pulse-soft': 'pulseSoft 2s infinite',
-                        'bounce-gentle': 'bounceGentle 1s ease-in-out infinite',
                     }
                 }
             }
         }
     </script>
-    
+     <style>
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 3rem 2rem 2rem;
+            color: #666;
+            font-size: 0.9rem;
+            border-top: 1px solid #ddd;
+            margin-top: 4rem;
+            background: #fff;
+        }
+
+        .footer-text {
+            font-style: italic;
+        }
+    </style>
     <style type="text/tailwindcss">
         @layer utilities {
-            .content-auto {
-                content-visibility: auto;
-            }
-            .glass-effect {
-                backdrop-filter: blur(10px);
-                background: rgba(255, 255, 255, 0.1);
-                border: 1px solid rgba(255, 255, 255, 0.2);
-            }
-            .gradient-bg {
-                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            }
             .card-hover {
                 transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             }
@@ -88,16 +75,6 @@
             }
         }
         
-        @keyframes pulseSoft {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.7; }
-        }
-        
-        @keyframes bounceGentle {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-5px); }
-        }
-        
         .scrollbar-hide {
             -ms-overflow-style: none;
             scrollbar-width: none;
@@ -109,10 +86,6 @@
         .text-shadow {
             text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
-        
-        .border-gradient {
-            border-image: linear-gradient(45deg, #165DFF, #36D399) 1;
-        }
     </style>
 </head>
 <body class="min-h-screen bg-gradient-to-br from-blue-50 via-white to-green-50 font-inter">
@@ -122,16 +95,16 @@
             <div class="flex justify-between items-center h-16">
                 <div class="flex items-center space-x-3">
                     <div class="w-10 h-10 bg-gradient-to-r from-primary to-secondary rounded-xl flex items-center justify-center">
-                        <i class="fa fa-bullseye text-white text-lg"></i>
+                        <i class="fa fa-envelope text-white text-lg"></i>
                     </div>
-                    <h1 class="text-xl font-bold text-gray-900 text-shadow">疫苗RCT实验邮件统计系统</h1>
+                    <h1 class="text-xl font-bold text-gray-900 text-shadow">疫苗RCT志愿者发送统计</h1>
                 </div>
                 <div class="flex items-center space-x-4">
                     <button id="helpBtn" class="p-2 text-gray-600 hover:text-primary transition-colors">
                         <i class="fa fa-question-circle text-lg"></i>
                     </button>
                     <button id="resetBtn" class="p-2 text-gray-600 hover:text-danger transition-colors">
-                        <i class="fa fa-bullseye text-lg"></i>
+                        <i class="fa fa-refresh text-lg"></i>
                     </button>
                 </div>
             </div>
@@ -148,15 +121,15 @@
                     <div class="flex items-center justify-between mb-4">
                         <h2 class="text-xl font-bold text-gray-900 flex items-center">
                             <i class="fa fa-edit text-primary mr-3"></i>
-                            数据输入
+                            群接龙数据
                         </h2>
-                        <span class="text-sm text-gray-500">粘贴格式：姓名 + 状态</span>
+                        <span class="text-sm text-gray-500">粘贴接龙内容</span>
                     </div>
                     
                     <div class="space-y-4">
                         <textarea 
                             id="dataInput" 
-                            placeholder="请粘贴数据，格式如下：&#10;张三 已发送，退订的未发送&#10;李四 已发送 无退订&#10;王五 未发送"
+                            placeholder="请粘贴群接龙数据，格式如下：&#10;#接龙&#10;1. 郑嘉诚 已发送,退订的未发送&#10;2. 尹力慧 已发送 无退订"
                             class="w-full h-64 p-4 border border-gray-200 rounded-xl resize-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-300 font-mono text-sm"
                         ></textarea>
                         
@@ -179,39 +152,29 @@
                     </div>
                 </div>
 
-                <!-- 数据库管理卡片 -->
+                <!-- 志愿者数据库卡片 -->
                 <div class="bg-white rounded-2xl shadow-xl p-6 card-hover border border-gray-100">
                     <div class="flex items-center justify-between mb-4">
                         <h2 class="text-xl font-bold text-gray-900 flex items-center">
-                            <i class="fa fa-database text-secondary mr-3"></i>
-                            人员数据库
+                            <i class="fa fa-users text-secondary mr-3"></i>
+                            志愿者名单
                         </h2>
-                        <button id="manageDBBtn" class="text-primary hover:text-primary/80 text-sm font-medium">
-                            管理 <i class="fa fa-chevron-right ml-1 text-xs"></i>
-                        </button>
+                        <span class="text-sm text-gray-500">共 63 人</span>
                     </div>
                     
                     <div class="space-y-4">
-                        <textarea 
-                            id="databaseInput" 
-                            placeholder="请输入完整的人员名单，每行一个姓名"
-                            class="w-full h-48 p-4 border border-gray-200 rounded-xl resize-none focus:ring-2 focus:ring-secondary focus:border-transparent transition-all duration-300 font-mono text-sm"
-                        ></textarea>
-                        
-                        <div class="flex space-x-3">
-                            <button 
-                                id="saveDBBtn" 
-                                class="flex-1 bg-secondary text-white py-2 px-4 rounded-xl font-semibold hover:bg-secondary/90 transition-all duration-300"
-                            >
-                                保存数据库
-                            </button>
-                            <button 
-                                id="loadSampleBtn" 
-                                class="px-4 py-2 border border-gray-300 text-gray-700 rounded-xl hover:bg-gray-50 transition-all duration-300 text-sm"
-                            >
-                                加载示例
-                            </button>
+                        <div class="bg-gray-50 rounded-xl p-4 max-h-64 overflow-y-auto scrollbar-hide">
+                            <div id="databaseList" class="grid grid-cols-2 gap-2 text-sm">
+                                <!-- 数据库人员将在这里显示 -->
+                            </div>
                         </div>
+                        
+                        <button 
+                            id="loadSampleBtn" 
+                            class="w-full bg-secondary text-white py-2 px-4 rounded-xl font-semibold hover:bg-secondary/90 transition-all duration-300"
+                        >
+                            加载示例接龙
+                        </button>
                     </div>
                 </div>
             </div>
@@ -225,7 +188,10 @@
                             <i class="fa fa-bar-chart text-warning mr-3"></i>
                             统计概览
                         </h2>
-                        <span id="totalCount" class="text-2xl font-bold text-primary">0</span>
+                        <div class="text-right">
+                            <p class="text-xs text-gray-500">志愿者总数</p>
+                            <p id="totalCount" class="text-2xl font-bold text-primary">63</p>
+                        </div>
                     </div>
                     
                     <!-- 统计指标网格 -->
@@ -242,14 +208,14 @@
                             </div>
                         </div>
                         
-                        <div class="bg-gradient-to-br from-orange-50 to-orange-100 rounded-xl p-4 border border-orange-200">
+                        <div class="bg-gradient-to-br from-red-50 to-red-100 rounded-xl p-4 border border-red-200">
                             <div class="flex items-center justify-between">
                                 <div>
-                                    <p class="text-sm text-orange-600 font-medium">退订未发送</p>
-                                    <p id="unsubscribedCount" class="text-2xl font-bold text-orange-900">0</p>
+                                    <p class="text-sm text-red-600 font-medium">未发送</p>
+                                    <p id="notSentCount" class="text-2xl font-bold text-red-900">63</p>
                                 </div>
-                                <div class="w-12 h-12 bg-orange-500/10 rounded-xl flex items-center justify-center">
-                                    <i class="fa fa-ban text-orange-600 text-xl"></i>
+                                <div class="w-12 h-12 bg-red-500/10 rounded-xl flex items-center justify-center">
+                                    <i class="fa fa-times-circle text-red-600 text-xl"></i>
                                 </div>
                             </div>
                         </div>
@@ -266,14 +232,14 @@
                             </div>
                         </div>
                         
-                        <div class="bg-gradient-to-br from-red-50 to-red-100 rounded-xl p-4 border border-red-200">
+                        <div class="bg-gradient-to-br from-orange-50 to-orange-100 rounded-xl p-4 border border-orange-200">
                             <div class="flex items-center justify-between">
                                 <div>
-                                    <p class="text-sm text-red-600 font-medium">未发送</p>
-                                    <p id="notSentCount" class="text-2xl font-bold text-red-900">0</p>
+                                    <p class="text-sm text-orange-600 font-medium">退订的未发送</p>
+                                    <p id="unsubscribedCount" class="text-2xl font-bold text-orange-900">0</p>
                                 </div>
-                                <div class="w-12 h-12 bg-red-500/10 rounded-xl flex items-center justify-center">
-                                    <i class="fa fa-times text-red-600 text-xl"></i>
+                                <div class="w-12 h-12 bg-orange-500/10 rounded-xl flex items-center justify-center">
+                                    <i class="fa fa-ban text-orange-600 text-xl"></i>
                                 </div>
                             </div>
                         </div>
@@ -296,8 +262,8 @@
                             <select id="filterSelect" class="px-3 py-1 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-primary focus:border-transparent">
                                 <option value="all">全部</option>
                                 <option value="sent">已发送</option>
-                                <option value="unsubscribed">退订未发送</option>
                                 <option value="no-unsubscribe">无退订</option>
+                                <option value="unsubscribed">退订未发送</option>
                                 <option value="not-sent">未发送</option>
                             </select>
                             <button id="exportBtn" class="px-3 py-1 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors text-sm">
@@ -310,24 +276,24 @@
                     <div class="space-y-2 max-h-96 overflow-y-auto scrollbar-hide" id="resultList">
                         <div class="text-center text-gray-500 py-8">
                             <i class="fa fa-inbox text-4xl mb-3 opacity-50"></i>
-                            <p>请粘贴数据并点击分析按钮</p>
+                            <p>请粘贴接龙数据并点击分析按钮</p>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- 未发送人员卡片（底部） -->
+        <!-- 未发送志愿者卡片(底部) -->
         <div id="missingPersonsCard" class="mt-8 bg-white rounded-2xl shadow-xl p-6 card-hover border border-gray-100 hidden animate-slide-up" style="animation-delay: 0.4s">
             <div class="flex items-center justify-between mb-4">
                 <h2 class="text-xl font-bold text-gray-900 flex items-center">
                     <i class="fa fa-exclamation-triangle text-warning mr-3"></i>
-                    未发送人员名单
+                    未发送志愿者名单
                 </h2>
-                <span id="missingCount" class="text-lg font-bold text-warning">0</span>
+                <span id="missingCount" class="text-lg font-bold text-warning">63</span>
             </div>
             
-            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3" id="missingPersonsList">
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3" id="missingPersonsList">
                 <!-- 未发送人员将在这里显示 -->
             </div>
         </div>
@@ -347,72 +313,31 @@
             
             <div class="p-6 space-y-6">
                 <div>
-                    <h4 class="font-semibold text-gray-900 mb-2">1. 数据格式要求</h4>
-                    <div class="bg-gray-50 p-4 rounded-lg font-mono text-sm">
-                        <p>张三 已发送，退订的未发送</p>
-                        <p>李四 已发送 无退订</p>
-                        <p>王五 未发送</p>
-                    </div>
-                </div>
-                
-                <div>
-                    <h4 class="font-semibold text-gray-900 mb-2">2. 状态识别规则</h4>
-                    <ul class="space-y-1 text-sm text-gray-600">
-                        <li>• 包含"退订"关键词：识别为退订未发送</li>
-                        <li>• 包含"无退订"：识别为无退订</li>
-                        <li>• 包含"已发送"但无退订信息：识别为已发送</li>
-                        <li>• 包含"未发送"：识别为未发送</li>
-                    </ul>
-                </div>
-                
-                <div>
-                    <h4 class="font-semibold text-gray-900 mb-2">3. 数据库功能</h4>
+                    <h4 class="font-semibold text-gray-900 mb-2">1. 系统说明</h4>
                     <p class="text-sm text-gray-600">
-                        在数据库区域输入完整的人员名单，系统会自动对比并找出未出现在输入数据中的人员。
+                        本系统用于统计63名志愿者的邮件发送情况。粘贴群接龙数据后,系统会自动分析哪些志愿者已发送、哪些未发送。
                     </p>
                 </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- 数据库管理模态框 -->
-    <div id="dbModal" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 hidden items-center justify-center p-4">
-        <div class="bg-white rounded-2xl shadow-2xl max-w-2xl w-full max-h-[80vh] overflow-y-auto animate-slide-up">
-            <div class="p-6 border-b border-gray-200">
-                <div class="flex items-center justify-between">
-                    <h3 class="text-xl font-bold text-gray-900">数据库管理</h3>
-                    <button id="closeDbBtn" class="text-gray-500 hover:text-gray-700">
-                        <i class="fa fa-times text-xl"></i>
-                    </button>
-                </div>
-            </div>
-            
-            <div class="p-6 space-y-4">
-                <div class="grid grid-cols-2 gap-4">
-                    <button id="importDBBtn" class="px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors">
-                        <i class="fa fa-upload mr-2"></i>导入文件
-                    </button>
-                    <button id="exportDBBtn" class="px-4 py-2 bg-secondary text-white rounded-lg hover:bg-secondary/90 transition-colors">
-                        <i class="fa fa-download mr-2"></i>导出数据库
-                    </button>
+                
+                <div>
+                    <h4 class="font-semibold text-gray-900 mb-2">2. 数据格式示例</h4>
+                    <div class="bg-gray-50 p-4 rounded-lg font-mono text-sm">
+                        <p>#接龙</p>
+                        <p>1. 郑嘉诚 已发送,退订的未发送</p>
+                        <p>2. 尹力慧 已发送 无退订</p>
+                        <p>3. 郭雅森 已发送 退订未发送</p>
+                    </div>
+                    <p class="text-xs text-gray-500 mt-2">系统会自动过滤 #接龙 等非人名内容</p>
                 </div>
                 
                 <div>
-                    <h4 class="font-semibold text-gray-900 mb-2">数据库统计</h4>
-                    <div class="grid grid-cols-3 gap-4">
-                        <div class="bg-gray-50 p-3 rounded-lg text-center">
-                            <p class="text-sm text-gray-600">总人数</p>
-                            <p id="dbTotalCount" class="text-lg font-bold">0</p>
-                        </div>
-                        <div class="bg-green-50 p-3 rounded-lg text-center">
-                            <p class="text-sm text-green-600">已发送</p>
-                            <p id="dbSentCount" class="text-lg font-bold">0</p>
-                        </div>
-                        <div class="bg-red-50 p-3 rounded-lg text-center">
-                            <p class="text-sm text-red-600">未发送</p>
-                            <p id="dbMissingCount" class="text-lg font-bold">0</p>
-                        </div>
-                    </div>
+                    <h4 class="font-semibold text-gray-900 mb-2">3. 统计规则</h4>
+                    <ul class="space-y-2 text-sm text-gray-600">
+                        <li>• <strong>已发送</strong>: 在接龙中出现的志愿者总数</li>
+                        <li>• <strong>未发送</strong>: 数据库中有但接龙中未出现的志愿者</li>
+                        <li>• <strong>无退订</strong>: 状态包含"无退订"的志愿者</li>
+                        <li>• <strong>退订未发送</strong>: 状态包含"退订"的志愿者</li>
+                    </ul>
                 </div>
             </div>
         </div>
@@ -434,53 +359,45 @@
     <script>
         class RCTMailTracker {
             constructor() {
+                // 内置志愿者数据库 (63人)
+                this.database = [
+                    "郑嘉诚", "尹力慧", "郭雅森", "战友欣", "郭虔", "田馨", "王旭", "闫政婷", "王琦", "郭晓林",
+                    "李怡菡", "刘丞哲", "何瑞", "柯尚冶", "黄俊森", "张紫钰", "姚盼玉", "张晓歌", "黄曼轩", "钟士秦",
+                    "全文海", "张玉娇", "朱郑昊", "施云峰", "杨昊", "赖伟丽", "王晓妍", "石松", "谈潭", "乔浩森",
+                    "张钧玮", "李晨曦", "董边昕", "郭湘", "张译心", "彭瑶", "邱阅", "阳文佩", "刘晨桐", "张绩伟",
+                    "周梦竺", "马晴", "于江媛", "王伊", "刘钥珊", "许梦晗", "陈文凯", "刘一", "谷正", "吴佳琪",
+                    "赵卓异", "孙嘉晨", "陈颖", "马浩钧", "李雅霏", "张英特", "高飞", "罗立心", "陈政", "葛晨曦",
+                    "曹宇晴", "王维秀", "郭佳", "郭艺佳", "杨颜菊"
+                ];
+                
+                this.analysisResults = [];
                 this.initializeElements();
                 this.initializeEventListeners();
                 this.initializeChart();
-                this.loadFromLocalStorage();
+                this.displayDatabase();
                 this.updateDisplay();
             }
 
             initializeElements() {
-                // 输入元素
                 this.dataInput = document.getElementById('dataInput');
-                this.databaseInput = document.getElementById('databaseInput');
-                
-                // 按钮元素
                 this.analyzeBtn = document.getElementById('analyzeBtn');
                 this.pasteBtn = document.getElementById('pasteBtn');
-                this.saveDBBtn = document.getElementById('saveDBBtn');
                 this.loadSampleBtn = document.getElementById('loadSampleBtn');
                 this.resetBtn = document.getElementById('resetBtn');
                 this.helpBtn = document.getElementById('helpBtn');
-                this.manageDBBtn = document.getElementById('manageDBBtn');
                 this.exportBtn = document.getElementById('exportBtn');
-                
-                // 统计元素
                 this.totalCount = document.getElementById('totalCount');
                 this.sentCount = document.getElementById('sentCount');
                 this.unsubscribedCount = document.getElementById('unsubscribedCount');
                 this.noUnsubscribeCount = document.getElementById('noUnsubscribeCount');
                 this.notSentCount = document.getElementById('notSentCount');
-                
-                // 列表元素
                 this.resultList = document.getElementById('resultList');
                 this.missingPersonsCard = document.getElementById('missingPersonsCard');
                 this.missingPersonsList = document.getElementById('missingPersonsList');
                 this.missingCount = document.getElementById('missingCount');
-                
-                // 模态框元素
+                this.databaseList = document.getElementById('databaseList');
                 this.helpModal = document.getElementById('helpModal');
-                this.dbModal = document.getElementById('dbModal');
                 this.closeHelpBtn = document.getElementById('closeHelpBtn');
-                this.closeDbBtn = document.getElementById('closeDbBtn');
-                
-                // 数据库统计元素
-                this.dbTotalCount = document.getElementById('dbTotalCount');
-                this.dbSentCount = document.getElementById('dbSentCount');
-                this.dbMissingCount = document.getElementById('dbMissingCount');
-                
-                // 其他元素
                 this.filterSelect = document.getElementById('filterSelect');
                 this.notification = document.getElementById('notification');
                 this.notificationTitle = document.getElementById('notificationTitle');
@@ -489,30 +406,21 @@
             }
 
             initializeEventListeners() {
-                // 主要功能按钮
                 this.analyzeBtn.addEventListener('click', () => this.analyzeData());
                 this.pasteBtn.addEventListener('click', () => this.pasteFromClipboard());
-                this.saveDBBtn.addEventListener('click', () => this.saveDatabase());
                 this.loadSampleBtn.addEventListener('click', () => this.loadSampleData());
                 this.resetBtn.addEventListener('click', () => this.resetAll());
                 this.exportBtn.addEventListener('click', () => this.exportResults());
-                
-                // 模态框按钮
                 this.helpBtn.addEventListener('click', () => this.showModal('help'));
-                this.manageDBBtn.addEventListener('click', () => this.showModal('db'));
                 this.closeHelpBtn.addEventListener('click', () => this.hideModal('help'));
-                this.closeDbBtn.addEventListener('click', () => this.hideModal('db'));
-                
-                // 过滤和其他
                 this.filterSelect.addEventListener('change', () => this.updateDisplay());
-                this.dataInput.addEventListener('input', () => this.updateCharacterCount());
-                
-                // 点击模态框背景关闭
                 this.helpModal.addEventListener('click', (e) => {
                     if (e.target === this.helpModal) this.hideModal('help');
                 });
-                this.dbModal.addEventListener('click', (e) => {
-                    if (e.target === this.dbModal) this.hideModal('db');
+                document.addEventListener('keydown', (e) => {
+                    if (e.key === 'Escape' && !this.helpModal.classList.contains('hidden')) {
+                        this.hideModal('help');
+                    }
                 });
             }
 
@@ -521,15 +429,10 @@
                 this.chart = new Chart(ctx, {
                     type: 'doughnut',
                     data: {
-                        labels: ['已发送', '退订未发送', '无退订', '未发送'],
+                        labels: ['已发送', '未发送'],
                         datasets: [{
-                            data: [0, 0, 0, 0],
-                            backgroundColor: [
-                                '#3B82F6', // 蓝色
-                                '#F59E0B', // 橙色
-                                '#10B981', // 绿色
-                                '#EF4444'  // 红色
-                            ],
+                            data: [0, 63],
+                            backgroundColor: ['#3B82F6', '#EF4444'],
                             borderWidth: 0,
                             hoverOffset: 10
                         }]
@@ -542,157 +445,179 @@
                                 position: 'bottom',
                                 labels: {
                                     padding: 20,
-                                    usePointStyle: true
+                                    usePointStyle: true,
+                                    font: { size: 14 }
+                                }
+                            },
+                            tooltip: {
+                                callbacks: {
+                                    label: function(context) {
+                                        const label = context.label || '';
+                                        const value = context.parsed || 0;
+                                        const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                                        const percentage = ((value / total) * 100).toFixed(1);
+                                        return `${label}: ${value}人 (${percentage}%)`;
+                                    }
                                 }
                             }
                         },
-                        animation: {
-                            animateRotate: true,
-                            duration: 1000
-                        }
+                        animation: { animateRotate: true, duration: 1000 }
                     }
                 });
+            }
+
+            displayDatabase() {
+                this.databaseList.innerHTML = this.database.map((name, index) => `
+                    <div class="text-gray-700 py-1 px-2 hover:bg-gray-100 rounded">
+                        <span class="text-gray-400 text-xs mr-1">${index + 1}.</span>${name}
+                    </div>
+                `).join('');
             }
 
             async analyzeData() {
                 const input = this.dataInput.value.trim();
                 if (!input) {
-                    this.showNotification('错误', '请先输入数据', 'error');
+                    this.showNotification('错误', '请先输入接龙数据', 'error');
                     return;
                 }
 
                 try {
                     this.showNotification('处理中', '正在分析数据...', 'info');
                     
-                    // 解析数据
-                    const lines = input.split('\n').filter(line => line.trim() !== '');
+                    // 过滤并解析数据
+                    const lines = input.split('\n')
+                        .map(line => line.trim())
+                        .filter(line => {
+                            // 过滤空行
+                            if (!line) return false;
+                            // 过滤 #接龙 等非人名行
+                            if (line.includes('#接龙') || line.includes('#')) return false;
+                            return true;
+                        });
+                    
                     const results = [];
+                    const processedNames = new Set();
                     
                     lines.forEach((line, index) => {
-                        const result = this.parseLine(line.trim());
-                        if (result) {
+                        const result = this.parseLine(line);
+                        if (result && this.database.includes(result.name)) {
+                            processedNames.add(result.name);
                             results.push({
                                 ...result,
-                                index: index + 1
+                                index: index + 1,
+                                status: 'sent'
                             });
                         }
                     });
 
-                    // 保存结果
                     this.analysisResults = results;
+                    this.processedNames = processedNames;
                     this.updateDisplay();
-                    this.saveToLocalStorage();
                     
-                    this.showNotification('成功', `分析完成，共处理 ${results.length} 条记录`, 'success');
+                    const sentCount = results.length;
+                    const notSentCount = this.database.length - sentCount;
+                    this.showNotification('成功', `分析完成! 已发送: ${sentCount}人, 未发送: ${notSentCount}人`, 'success');
                     
                 } catch (error) {
                     console.error('分析数据时出错:', error);
-                    this.showNotification('错误', '数据格式错误，请检查输入', 'error');
+                    this.showNotification('错误', '数据格式错误,请检查输入', 'error');
                 }
             }
 
             parseLine(line) {
-                // 正则表达式匹配姓名和状态
-                const nameMatch = line.match(/^([^，, ]+)/);
-                if (!nameMatch) return null;
+                // 移除序号(如 "1. ", "2. " 等)
+                line = line.replace(/^\d+[\.\s、]+/, '').trim();
                 
-                const name = nameMatch[1].trim();
+                // 提取姓名(第一个词)
+                const parts = line.split(/[\s,，]+/);
+                if (parts.length === 0) return null;
+                
+                const name = parts[0].trim();
                 const statusText = line.substring(name.length).trim();
                 
-                let status = 'unknown';
-                let statusClass = 'bg-gray-100 text-gray-700';
-                let statusIcon = 'fa-question';
+                // 判断详细状态
+                let detailStatus = 'unknown';
+                let statusClass = 'bg-blue-100 text-blue-700';
+                let statusIcon = 'fa-check';
                 
-                if (statusText.includes('退订') && statusText.includes('未发送')) {
-                    status = 'unsubscribed';
-                    statusClass = 'bg-orange-100 text-orange-700';
-                    statusIcon = 'fa-ban';
-                } else if (statusText.includes('无退订')) {
-                    status = 'no-unsubscribe';
+                // 关键修复：先检查"无退订"（更具体），再检查"退订"（更宽泛）
+                // 因为"无退订"中包含"退订"二字，必须先判断
+                if (statusText.includes('无退订')) {
+                    detailStatus = 'no-unsubscribe';
                     statusClass = 'bg-green-100 text-green-700';
                     statusIcon = 'fa-heart';
-                } else if (statusText.includes('已发送')) {
-                    status = 'sent';
-                    statusClass = 'bg-blue-100 text-blue-700';
-                    statusIcon = 'fa-check';
-                } else if (statusText.includes('未发送')) {
-                    status = 'not-sent';
-                    statusClass = 'bg-red-100 text-red-700';
-                    statusIcon = 'fa-times';
+                } else if (statusText.includes('退订')) {
+                    detailStatus = 'unsubscribed';
+                    statusClass = 'bg-orange-100 text-orange-700';
+                    statusIcon = 'fa-ban';
                 }
 
                 return {
                     name,
-                    statusText,
-                    status,
+                    statusText: statusText || '已发送',
+                    detailStatus,
                     statusClass,
                     statusIcon
                 };
             }
 
             updateDisplay() {
-                if (!this.analysisResults || this.analysisResults.length === 0) {
-                    this.resultList.innerHTML = `
-                        <div class="text-center text-gray-500 py-8">
-                            <i class="fa fa-inbox text-4xl mb-3 opacity-50"></i>
-                            <p>请粘贴数据并点击分析按钮</p>
-                        </div>
-                    `;
-                    return;
-                }
-
-                const filter = this.filterSelect.value;
-                const filteredResults = filter === 'all' 
-                    ? this.analysisResults 
-                    : this.analysisResults.filter(item => item.status === filter);
-
-                // 更新统计
-                this.updateStatistics();
+                const sentCount = this.analysisResults.length;
+                const notSentCount = this.database.length - sentCount;
+                const noUnsubscribeCount = this.analysisResults.filter(r => r.detailStatus === 'no-unsubscribe').length;
+                const unsubscribedCount = this.analysisResults.filter(r => r.detailStatus === 'unsubscribed').length;
                 
-                // 更新图表
-                this.updateChart();
+                this.animateNumber(this.sentCount, sentCount);
+                this.animateNumber(this.notSentCount, notSentCount);
+                this.animateNumber(this.noUnsubscribeCount, noUnsubscribeCount);
+                this.animateNumber(this.unsubscribedCount, unsubscribedCount);
                 
-                // 更新列表
-                this.updateResultList(filteredResults);
+                this.chart.data.datasets[0].data = [sentCount, notSentCount];
+                this.chart.update('active');
                 
-                // 更新未发送人员
+                this.updateResultList();
                 this.updateMissingPersons();
             }
 
-            updateStatistics() {
-                const total = this.analysisResults.length;
-                const sent = this.analysisResults.filter(item => item.status === 'sent').length;
-                const unsubscribed = this.analysisResults.filter(item => item.status === 'unsubscribed').length;
-                const noUnsubscribe = this.analysisResults.filter(item => item.status === 'no-unsubscribe').length;
-                const notSent = this.analysisResults.filter(item => item.status === 'not-sent').length;
+            updateResultList() {
+                const filter = this.filterSelect.value;
+                let displayData = [];
+                
+                if (filter === 'all') {
+                    displayData = this.database.map(name => {
+                        const result = this.analysisResults.find(r => r.name === name);
+                        if (result) {
+                            return result;
+                        } else {
+                            return {
+                                name: name,
+                                statusText: '未发送',
+                                status: 'not-sent',
+                                detailStatus: 'not-sent',
+                                statusClass: 'bg-red-100 text-red-700',
+                                statusIcon: 'fa-times-circle'
+                            };
+                        }
+                    });
+                } else if (filter === 'sent') {
+                    displayData = this.analysisResults;
+                } else if (filter === 'not-sent') {
+                    const sentNames = new Set(this.analysisResults.map(r => r.name));
+                    displayData = this.database
+                        .filter(name => !sentNames.has(name))
+                        .map(name => ({
+                            name: name,
+                            statusText: '未发送',
+                            status: 'not-sent',
+                            detailStatus: 'not-sent',
+                            statusClass: 'bg-red-100 text-red-700',
+                            statusIcon: 'fa-times-circle'
+                        }));
+                } else {
+                    displayData = this.analysisResults.filter(r => r.detailStatus === filter);
+                }
 
-                // 更新数字显示
-                this.totalCount.textContent = total;
-                this.sentCount.textContent = sent;
-                this.unsubscribedCount.textContent = unsubscribed;
-                this.noUnsubscribeCount.textContent = noUnsubscribe;
-                this.notSentCount.textContent = notSent;
-
-                // 添加数字动画
-                this.animateNumber(this.totalCount, total);
-                this.animateNumber(this.sentCount, sent);
-                this.animateNumber(this.unsubscribedCount, unsubscribed);
-                this.animateNumber(this.noUnsubscribeCount, noUnsubscribe);
-                this.animateNumber(this.notSentCount, notSent);
-            }
-
-            updateChart() {
-                const sent = this.analysisResults.filter(item => item.status === 'sent').length;
-                const unsubscribed = this.analysisResults.filter(item => item.status === 'unsubscribed').length;
-                const noUnsubscribe = this.analysisResults.filter(item => item.status === 'no-unsubscribe').length;
-                const notSent = this.analysisResults.filter(item => item.status === 'not-sent').length;
-
-                this.chart.data.datasets[0].data = [sent, unsubscribed, noUnsubscribe, notSent];
-                this.chart.update('active');
-            }
-
-            updateResultList(results) {
-                if (results.length === 0) {
+                if (displayData.length === 0) {
                     this.resultList.innerHTML = `
                         <div class="text-center text-gray-500 py-6">
                             <i class="fa fa-filter text-2xl mb-2 opacity-50"></i>
@@ -702,36 +627,28 @@
                     return;
                 }
 
-                this.resultList.innerHTML = results.map(item => `
+                this.resultList.innerHTML = displayData.map((item, index) => `
                     <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors border border-gray-200">
                         <div class="flex items-center space-x-3">
-                            <span class="w-6 h-6 bg-gray-200 rounded-full flex items-center justify-center text-xs font-medium text-gray-700">
-                                ${item.index}
+                            <span class="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center text-xs font-medium text-gray-700">
+                                ${index + 1}
                             </span>
                             <span class="font-medium text-gray-900">${item.name}</span>
                         </div>
                         <div class="flex items-center space-x-3">
-                            <span class="px-2 py-1 rounded-full text-xs font-medium ${item.statusClass} flex items-center">
+                            <span class="px-3 py-1 rounded-full text-xs font-medium ${item.statusClass} flex items-center">
                                 <i class="fa ${item.statusIcon} mr-1"></i>
-                                ${this.getStatusText(item.status)}
+                                ${this.getStatusLabel(item.detailStatus || item.status)}
                             </span>
-                            <span class="text-xs text-gray-500 truncate max-w-xs">${item.statusText}</span>
+                            ${item.statusText && item.statusText !== '已发送' && item.statusText !== '未发送' ? `<span class="text-xs text-gray-500 max-w-xs truncate">${item.statusText}</span>` : ''}
                         </div>
                     </div>
                 `).join('');
             }
 
             updateMissingPersons() {
-                const dbNames = this.getDatabaseNames();
-                if (dbNames.length === 0) {
-                    this.missingPersonsCard.classList.add('hidden');
-                    return;
-                }
-
-                const processedNames = this.analysisResults.map(item => item.name.trim());
-                const missingNames = dbNames.filter(name => 
-                    !processedNames.includes(name.trim()) && name.trim() !== ''
-                );
+                const sentNames = new Set(this.analysisResults.map(r => r.name));
+                const missingNames = this.database.filter(name => !sentNames.has(name));
 
                 if (missingNames.length === 0) {
                     this.missingPersonsCard.classList.add('hidden');
@@ -742,32 +659,22 @@
                 this.missingCount.textContent = missingNames.length;
 
                 this.missingPersonsList.innerHTML = missingNames.map(name => `
-                    <div class="bg-red-50 border border-red-200 rounded-lg p-3 text-center">
-                        <span class="text-sm font-medium text-red-900">${name}</span>
+                    <div class="bg-red-50 border border-red-200 rounded-lg p-3 text-center hover:bg-red-100 transition-colors">
+                        <i class="fa fa-user-times text-red-500 mb-1"></i>
+                        <p class="text-sm font-medium text-red-900">${name}</p>
                     </div>
                 `).join('');
-
-                // 更新数据库统计
-                this.dbTotalCount.textContent = dbNames.length;
-                this.dbSentCount.textContent = processedNames.length;
-                this.dbMissingCount.textContent = missingNames.length;
             }
 
-            getStatusText(status) {
-                const statusMap = {
+            getStatusLabel(status) {
+                const labels = {
                     'sent': '已发送',
-                    'unsubscribed': '退订未发送',
-                    'no-unsubscribe': '无退订',
                     'not-sent': '未发送',
-                    'unknown': '未知'
+                    'no-unsubscribe': '无退订',
+                    'unsubscribed': '退订未发送',
+                    'unknown': '已发送'
                 };
-                return statusMap[status] || '未知';
-            }
-
-            getDatabaseNames() {
-                return this.databaseInput.value.split('\n')
-                    .map(name => name.trim())
-                    .filter(name => name !== '');
+                return labels[status] || status;
             }
 
             async pasteFromClipboard() {
@@ -776,42 +683,85 @@
                     this.dataInput.value = text;
                     this.showNotification('成功', '已从剪贴板粘贴数据', 'success');
                 } catch (error) {
-                    console.error('粘贴失败:', error);
-                    this.showNotification('错误', '无法访问剪贴板', 'error');
-                }
-            }
-
-            saveDatabase() {
-                const dbContent = this.databaseInput.value.trim();
-                if (dbContent) {
-                    localStorage.setItem('rctDatabase', dbContent);
-                    this.showNotification('成功', '数据库已保存', 'success');
-                    this.updateMissingPersons();
-                } else {
-                    this.showNotification('警告', '数据库内容为空', 'warning');
+                    this.showNotification('提示', '请使用 Ctrl+V 粘贴', 'warning');
                 }
             }
 
             loadSampleData() {
-                const sampleData = `郑嘉诚 已发送，退订的未发送
-尹力慧 已发送，退订的未发送
-郭雅森 已发送，退订的未发送
-战友欣 已发送，退订的未发送
-郭虔 已发送，退订的未发送
-田馨 已发送，退订的未发送
-王旭 已发送，退订的未发送
-闫政婷 已发送，退订的未发送
-王琦 已发送，退订的未发送
-郭晓林 已发送 退订未发送`;
+                const sampleData = `#接龙
+1. 郑嘉诚 已发送,退订的未发送
+2. 尹力慧 已发送,退订的未发送
+3. 郭雅森 已发送,退订的未发送
+4. 战友欣 已发送,退订的未发送
+5. 郭虔 已发送,退订的未发送
+6. 田馨 已发送,退订的未发送
+7. 王旭 已发送,退订的未发送
+8. 闫政婷 已发送,退订的未发送
+9. 王琦 已发送,退订的未发送
+10. 郭晓林 已发送 退订未发送
+11. 李怡菡 已发送 退订未发送
+12. 刘丞哲 已发送 退订未发送
+13. 何瑞 已发送 退订未发送
+14. 柯尚冶 已发送,退订未发送
+15. 黄俊森 已发送 退订未发送
+16. 张紫钰 已发送退订未发送
+17. 姚盼玉 已发送,退订未发送
+18. 张晓歌 已发送 无退订
+19. 黄曼轩 已发送 无退订
+20. 钟士秦 已发送 无退订
+21. 全文海 已发送 退订未发送
+22. 张玉娇  已发送 退订未发送
+23. 朱郑昊 已发送 无退订
+24. 施云峰 已发送 无退订
+25. 杨昊 已发送 无退订
+26. 赖伟丽 已发送 无退订
+27. 王晓妍 已发送 无退订
+28. 石松 已发送 无退订
+29. 谈潭 已发送 无退订
+30. 乔浩森 已发送 无退订
+31. 张钧玮 已发送 无退订
+32. 李晨曦 已发送 无退订
+33. 董边昕 已发送 退订未发送
+34. 郭湘 已发送 无退订
+35. 张译心 已发送 无退订
+36. 彭瑶 已发送 无退订
+37. 邱阅 已发送 无退订
+38. 阳文佩 已发送 无退订
+39. 刘晨桐 已发送 无退订
+40. 张绩伟 已发送 无退订
+41. 周梦竺 已发送 无退订
+42. 马晴 已发送 无退订
+43. 于江媛 已发送 无退订
+44. 王伊 已发送,退订的未发送
+45. 刘钥珊 已发送,无退订
+46. 许梦晗 已发送 无退订
+47. 陈文凯 已发送 无退订
+48. 刘一  已发送  无退订
+49. 谷正 已发送 无退订
+50. 吴佳琪 已发送 无退订
+51. 赵卓异 已发送 退订的未发送
+52. 孙嘉晨 已发送 无退订
+53. 陈颖 已发送 无退订
+54. 马浩钧 已发送 无退订
+55. 李雅霏 已发送 无退订
+56. 张英特,已发送,退订的未发送
+57. 高飞 已发送 无退订
+58. 罗立心 已发送,退订的未发送
+59. 陈政 已发送 无退订
+60. 葛晨曦 已发送 无退订
+61. 曹宇晴 已发送 无退订
+62. 王维秀 已发送,退订的未发送
+63.郭佳 已发送,退订的未发送`;
 
                 this.dataInput.value = sampleData;
-                this.showNotification('成功', '已加载示例数据', 'success');
+                this.showNotification('成功', '已加载示例接龙数据', 'success');
             }
 
             resetAll() {
-                if (confirm('确定要重置所有数据吗？')) {
+                if (confirm('确定要重置所有数据吗?')) {
                     this.dataInput.value = '';
                     this.analysisResults = [];
+                    this.processedNames = new Set();
                     this.updateDisplay();
                     this.showNotification('成功', '所有数据已重置', 'success');
                 }
@@ -819,16 +769,16 @@
 
             exportResults() {
                 if (!this.analysisResults || this.analysisResults.length === 0) {
-                    this.showNotification('错误', '没有数据可导出', 'error');
+                    this.showNotification('提示', '请先分析数据', 'warning');
                     return;
                 }
 
                 const csvContent = this.generateCSV();
-                const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+                const blob = new Blob(['\ufeff' + csvContent], { type: 'text/csv;charset=utf-8;' });
                 const url = URL.createObjectURL(blob);
                 const link = document.createElement('a');
                 link.setAttribute('href', url);
-                link.setAttribute('download', `疫苗RCT邮件统计_${new Date().toISOString().slice(0, 10)}.csv`);
+                link.setAttribute('download', `志愿者发送统计_${new Date().toISOString().slice(0, 10)}.csv`);
                 link.style.display = 'none';
                 document.body.appendChild(link);
                 link.click();
@@ -838,17 +788,32 @@
             }
 
             generateCSV() {
-                const headers = ['序号', '姓名', '状态', '原始状态文本'];
-                const rows = this.analysisResults.map((item, index) => [
-                    index + 1,
-                    item.name,
-                    this.getStatusText(item.status),
-                    item.statusText
-                ]);
+                const headers = ['序号', '姓名', '发送状态', '详细状态', '原始文本'];
+                
+                const allData = this.database.map((name, index) => {
+                    const result = this.analysisResults.find(r => r.name === name);
+                    if (result) {
+                        return [
+                            index + 1,
+                            result.name,
+                            '已发送',
+                            this.getStatusLabel(result.detailStatus),
+                            result.statusText
+                        ];
+                    } else {
+                        return [
+                            index + 1,
+                            name,
+                            '未发送',
+                            '未发送',
+                            ''
+                        ];
+                    }
+                });
 
                 const csvRows = [
                     headers.join(','),
-                    ...rows.map(row => row.map(cell => `"${cell.replace(/"/g, '""')}"`).join(','))
+                    ...allData.map(row => row.map(cell => `"${String(cell).replace(/"/g, '""')}"`).join(','))
                 ];
 
                 return csvRows.join('\n');
@@ -858,10 +823,6 @@
                 if (type === 'help') {
                     this.helpModal.classList.remove('hidden');
                     this.helpModal.classList.add('flex');
-                } else if (type === 'db') {
-                    this.dbModal.classList.remove('hidden');
-                    this.dbModal.classList.add('flex');
-                    this.updateMissingPersons(); // 更新数据库统计
                 }
             }
 
@@ -869,9 +830,6 @@
                 if (type === 'help') {
                     this.helpModal.classList.add('hidden');
                     this.helpModal.classList.remove('flex');
-                } else if (type === 'db') {
-                    this.dbModal.classList.add('hidden');
-                    this.dbModal.classList.remove('flex');
                 }
             }
 
@@ -879,7 +837,6 @@
                 this.notificationTitle.textContent = title;
                 this.notificationMessage.textContent = message;
 
-                // 设置图标和颜色
                 const iconMap = {
                     'success': 'fa-check-circle text-green-500',
                     'error': 'fa-exclamation-circle text-red-500',
@@ -897,10 +854,8 @@
                 this.notificationIcon.className = `fa ${iconMap[type]}`;
                 this.notification.querySelector('div').className = `bg-white rounded-xl shadow-lg p-4 border-l-4 ${borderColorMap[type]} flex items-center space-x-3 max-w-sm`;
 
-                // 显示通知
                 this.notification.classList.remove('hidden');
 
-                // 3秒后自动隐藏
                 setTimeout(() => {
                     this.notification.classList.add('hidden');
                 }, 3000);
@@ -908,93 +863,34 @@
 
             animateNumber(element, target) {
                 const start = parseInt(element.textContent) || 0;
-                const duration = 1000;
+                const duration = 800;
                 const startTime = Date.now();
 
                 const animate = () => {
                     const elapsed = Date.now() - startTime;
                     const progress = Math.min(elapsed / duration, 1);
-                    const current = Math.floor(start + (target - start) * progress);
+                    const easeProgress = progress < 0.5 
+                        ? 2 * progress * progress 
+                        : 1 - Math.pow(-2 * progress + 2, 2) / 2;
+                    const current = Math.floor(start + (target - start) * easeProgress);
                     element.textContent = current;
 
                     if (progress < 1) {
                         requestAnimationFrame(animate);
+                    } else {
+                        element.textContent = target;
                     }
                 };
 
                 animate();
             }
-
-            saveToLocalStorage() {
-                const data = {
-                    analysisResults: this.analysisResults,
-                    database: this.databaseInput.value
-                };
-                localStorage.setItem('rctMailTracker', JSON.stringify(data));
-            }
-
-            loadFromLocalStorage() {
-                const saved = localStorage.getItem('rctMailTracker');
-                if (saved) {
-                    const data = JSON.parse(saved);
-                    this.analysisResults = data.analysisResults || [];
-                    this.databaseInput.value = data.database || '';
-                }
-
-                const savedDB = localStorage.getItem('rctDatabase');
-                if (savedDB) {
-                    this.databaseInput.value = savedDB;
-                }
-            }
-
-            updateCharacterCount() {
-                // 可以添加字符计数功能
-            }
         }
 
-        // 页面加载完成后初始化
         document.addEventListener('DOMContentLoaded', () => {
             new RCTMailTracker();
         });
-
-        // 键盘快捷键
-        document.addEventListener('keydown', (e) => {
-            if (e.ctrlKey || e.metaKey) {
-                switch (e.key) {
-                    case 'v':
-                        if (e.target === document.getElementById('dataInput')) {
-                            e.preventDefault();
-                            // 让默认粘贴行为处理
-                        }
-                        break;
-                    case 's':
-                        e.preventDefault();
-                        if (e.target === document.getElementById('databaseInput')) {
-                            document.getElementById('saveDBBtn').click();
-                        }
-                        break;
-                    case 'Enter':
-                        if (e.target === document.getElementById('dataInput')) {
-                            e.preventDefault();
-                            document.getElementById('analyzeBtn').click();
-                        }
-                        break;
-                }
-            }
-            
-            if (e.key === 'Escape') {
-                // 关闭所有模态框
-                const modals = document.querySelectorAll('[id$="Modal"]');
-                modals.forEach(modal => {
-                    if (!modal.classList.contains('hidden')) {
-                        modal.classList.add('hidden');
-                        modal.classList.remove('flex');
-                    }
-                });
-            }
-        });
     </script>
-        <!-- 底部 -->
+    <!-- 底部 -->
     <footer class="footer">
     由 Karcen Zheng 制作，<a href="https://karcen.github.io/zhengjiacheng.github.io/" target="_blank">联系我</a>
 	</footer>
