@@ -20,19 +20,12 @@
                         success: '#10B981',
                         dark: '#1F2937',
                         light: '#F8FAFC'
-                    },
-                    fontFamily: {
-                        inter: ['Inter', 'system-ui', 'sans-serif'],
-                    },
-                    animation: {
-                        'fade-in': 'fadeIn 0.5s ease-in-out',
-                        'slide-up': 'slideUp 0.6s ease-out',
                     }
                 }
             }
         }
     </script>
-     <style>
+    <style>
         /* Footer */
         .footer {
             text-align: center;
@@ -48,17 +41,7 @@
             font-style: italic;
         }
     </style>
-    <style type="text/tailwindcss">
-        @layer utilities {
-            .card-hover {
-                transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            }
-            .card-hover:hover {
-                transform: translateY(-8px);
-                box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-            }
-        }
-        
+    <style>
         @keyframes fadeIn {
             from { opacity: 0; }
             to { opacity: 1; }
@@ -86,24 +69,35 @@
         .text-shadow {
             text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
+        
+        .card-hover {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .card-hover:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        }
+        
+        .animate-slide-up {
+            animation: slideUp 0.6s ease-out;
+        }
     </style>
 </head>
-<body class="min-h-screen bg-gradient-to-br from-blue-50 via-white to-green-50 font-inter">
-    <!-- 顶部导航 -->
+<body class="min-h-screen bg-gradient-to-br from-blue-50 via-white to-green-50">
     <nav class="bg-white/80 backdrop-blur-md border-b border-gray-200/50 sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-16">
                 <div class="flex items-center space-x-3">
-                    <div class="w-10 h-10 bg-gradient-to-r from-primary to-secondary rounded-xl flex items-center justify-center">
+                    <div class="w-10 h-10 bg-gradient-to-r from-blue-500 to-green-400 rounded-xl flex items-center justify-center">
                         <i class="fa fa-envelope text-white text-lg"></i>
                     </div>
                     <h1 class="text-xl font-bold text-gray-900 text-shadow">疫苗RCT志愿者发送统计</h1>
                 </div>
                 <div class="flex items-center space-x-4">
-                    <button id="helpBtn" class="p-2 text-gray-600 hover:text-primary transition-colors">
+                    <button id="helpBtn" class="p-2 text-gray-600 hover:text-blue-500 transition-colors">
                         <i class="fa fa-question-circle text-lg"></i>
                     </button>
-                    <button id="resetBtn" class="p-2 text-gray-600 hover:text-danger transition-colors">
+                    <button id="resetBtn" class="p-2 text-gray-600 hover:text-red-500 transition-colors">
                         <i class="fa fa-refresh text-lg"></i>
                     </button>
                 </div>
@@ -112,15 +106,12 @@
     </nav>
 
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <!-- 主要内容区域 -->
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            <!-- 输入区域 -->
             <div class="space-y-6 animate-slide-up">
-                <!-- 数据输入卡片 -->
                 <div class="bg-white rounded-2xl shadow-xl p-6 card-hover border border-gray-100">
                     <div class="flex items-center justify-between mb-4">
                         <h2 class="text-xl font-bold text-gray-900 flex items-center">
-                            <i class="fa fa-edit text-primary mr-3"></i>
+                            <i class="fa fa-edit text-blue-500 mr-3"></i>
                             群接龙数据
                         </h2>
                         <span class="text-sm text-gray-500">粘贴接龙内容</span>
@@ -129,14 +120,14 @@
                     <div class="space-y-4">
                         <textarea 
                             id="dataInput" 
-                            placeholder="请粘贴群接龙数据，格式如下：&#10;#接龙&#10;1. 郑嘉诚 已发送,退订的未发送&#10;2. 尹力慧 已发送 无退订"
-                            class="w-full h-64 p-4 border border-gray-200 rounded-xl resize-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-300 font-mono text-sm"
+                            placeholder="请粘贴群接龙数据，格式如下:&#10;#接龙&#10;1. 郑嘉诚 已发送,退订的未发送&#10;2. 尹力慧 已发送 无退订"
+                            class="w-full h-64 p-4 border border-gray-200 rounded-xl resize-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 font-mono text-sm"
                         ></textarea>
                         
                         <div class="flex space-x-3">
                             <button 
                                 id="analyzeBtn" 
-                                class="flex-1 bg-gradient-to-r from-primary to-secondary text-white py-3 px-6 rounded-xl font-semibold hover:shadow-lg transform hover:scale-105 transition-all duration-300 flex items-center justify-center space-x-2"
+                                class="flex-1 bg-gradient-to-r from-blue-500 to-green-400 text-white py-3 px-6 rounded-xl font-semibold hover:shadow-lg transform hover:scale-105 transition-all duration-300 flex items-center justify-center space-x-2"
                             >
                                 <i class="fa fa-magic"></i>
                                 <span>开始分析</span>
@@ -152,26 +143,23 @@
                     </div>
                 </div>
 
-                <!-- 志愿者数据库卡片 -->
                 <div class="bg-white rounded-2xl shadow-xl p-6 card-hover border border-gray-100">
                     <div class="flex items-center justify-between mb-4">
                         <h2 class="text-xl font-bold text-gray-900 flex items-center">
-                            <i class="fa fa-users text-secondary mr-3"></i>
+                            <i class="fa fa-users text-green-500 mr-3"></i>
                             志愿者名单
                         </h2>
-                        <span class="text-sm text-gray-500">共 63 人</span>
+                        <span class="text-sm text-gray-500">共 65 人</span>
                     </div>
                     
                     <div class="space-y-4">
                         <div class="bg-gray-50 rounded-xl p-4 max-h-64 overflow-y-auto scrollbar-hide">
-                            <div id="databaseList" class="grid grid-cols-2 gap-2 text-sm">
-                                <!-- 数据库人员将在这里显示 -->
-                            </div>
+                            <div id="databaseList" class="grid grid-cols-2 gap-2 text-sm"></div>
                         </div>
                         
                         <button 
                             id="loadSampleBtn" 
-                            class="w-full bg-secondary text-white py-2 px-4 rounded-xl font-semibold hover:bg-secondary/90 transition-all duration-300"
+                            class="w-full bg-green-500 text-white py-2 px-4 rounded-xl font-semibold hover:bg-green-600 transition-all duration-300"
                         >
                             加载示例接龙
                         </button>
@@ -179,22 +167,19 @@
                 </div>
             </div>
 
-            <!-- 统计结果区域 -->
             <div class="space-y-6 animate-slide-up" style="animation-delay: 0.2s">
-                <!-- 统计概览卡片 -->
                 <div class="bg-white rounded-2xl shadow-xl p-6 card-hover border border-gray-100">
                     <div class="flex items-center justify-between mb-6">
                         <h2 class="text-xl font-bold text-gray-900 flex items-center">
-                            <i class="fa fa-bar-chart text-warning mr-3"></i>
+                            <i class="fa fa-bar-chart text-yellow-500 mr-3"></i>
                             统计概览
                         </h2>
                         <div class="text-right">
-                            <p class="text-xs text-gray-500">志愿者总数</p>
-                            <p id="totalCount" class="text-2xl font-bold text-primary">66+（待定）</p>
+                            <p class="text-sm text-gray-500">志愿者总数</p>
+                            <p id="totalCount" class="text-2xl font-bold text-blue-600">65+（待更新）</p>
                         </div>
                     </div>
                     
-                    <!-- 统计指标网格 -->
                     <div class="grid grid-cols-2 gap-4 mb-6">
                         <div class="bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl p-4 border border-blue-200">
                             <div class="flex items-center justify-between">
@@ -235,7 +220,7 @@
                         <div class="bg-gradient-to-br from-orange-50 to-orange-100 rounded-xl p-4 border border-orange-200">
                             <div class="flex items-center justify-between">
                                 <div>
-                                    <p class="text-sm text-orange-600 font-medium">退订的未发送</p>
+                                    <p class="text-sm text-orange-600 font-medium">退订未发送</p>
                                     <p id="unsubscribedCount" class="text-2xl font-bold text-orange-900">0</p>
                                 </div>
                                 <div class="w-12 h-12 bg-orange-500/10 rounded-xl flex items-center justify-center">
@@ -245,21 +230,19 @@
                         </div>
                     </div>
                     
-                    <!-- 图表容器 -->
                     <div class="h-64">
                         <canvas id="statusChart"></canvas>
                     </div>
                 </div>
 
-                <!-- 详细列表卡片 -->
                 <div class="bg-white rounded-2xl shadow-xl p-6 card-hover border border-gray-100">
                     <div class="flex items-center justify-between mb-4">
                         <h2 class="text-xl font-bold text-gray-900 flex items-center">
-                            <i class="fa fa-list text-danger mr-3"></i>
+                            <i class="fa fa-list text-red-500 mr-3"></i>
                             详细列表
                         </h2>
                         <div class="flex space-x-2">
-                            <select id="filterSelect" class="px-3 py-1 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-primary focus:border-transparent">
+                            <select id="filterSelect" class="px-3 py-1 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent">
                                 <option value="all">全部</option>
                                 <option value="sent">已发送</option>
                                 <option value="no-unsubscribe">无退订</option>
@@ -272,7 +255,6 @@
                         </div>
                     </div>
                     
-                    <!-- 列表容器 -->
                     <div class="space-y-2 max-h-96 overflow-y-auto scrollbar-hide" id="resultList">
                         <div class="text-center text-gray-500 py-8">
                             <i class="fa fa-inbox text-4xl mb-3 opacity-50"></i>
@@ -283,23 +265,19 @@
             </div>
         </div>
 
-        <!-- 未发送志愿者卡片(底部) -->
         <div id="missingPersonsCard" class="mt-8 bg-white rounded-2xl shadow-xl p-6 card-hover border border-gray-100 hidden animate-slide-up" style="animation-delay: 0.4s">
             <div class="flex items-center justify-between mb-4">
                 <h2 class="text-xl font-bold text-gray-900 flex items-center">
-                    <i class="fa fa-exclamation-triangle text-warning mr-3"></i>
+                    <i class="fa fa-exclamation-triangle text-yellow-500 mr-3"></i>
                     未发送志愿者名单
                 </h2>
-                <span id="missingCount" class="text-lg font-bold text-warning">63</span>
+                <span id="missingCount" class="text-lg font-bold text-yellow-600">63</span>
             </div>
             
-            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3" id="missingPersonsList">
-                <!-- 未发送人员将在这里显示 -->
-            </div>
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3" id="missingPersonsList"></div>
         </div>
     </div>
 
-    <!-- 帮助模态框 -->
     <div id="helpModal" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 hidden items-center justify-center p-4">
         <div class="bg-white rounded-2xl shadow-2xl max-w-2xl w-full max-h-[80vh] overflow-y-auto animate-slide-up">
             <div class="p-6 border-b border-gray-200">
@@ -325,9 +303,9 @@
                         <p>#接龙</p>
                         <p>1. 郑嘉诚 已发送,退订的未发送</p>
                         <p>2. 尹力慧 已发送 无退订</p>
-                        <p>3. 郭雅森 已发送 退订未发送</p>
+                        <p>3. 郭雅森已发送退订未发送</p>
                     </div>
-                    <p class="text-xs text-gray-500 mt-2">系统会自动过滤 #接龙 等非人名内容</p>
+                    <p class="text-xs text-gray-500 mt-2">系统会自动过滤 #接龙 等非人名内容,并智能识别连在一起的姓名和状态</p>
                 </div>
                 
                 <div>
@@ -343,11 +321,10 @@
         </div>
     </div>
 
-    <!-- 通知组件 -->
     <div id="notification" class="fixed top-4 right-4 z-50 hidden animate-slide-up">
-        <div class="bg-white rounded-xl shadow-lg p-4 border-l-4 border-primary flex items-center space-x-3 max-w-sm">
-            <div class="w-8 h-8 bg-primary/10 rounded-lg flex items-center justify-center">
-                <i id="notificationIcon" class="fa fa-check text-primary"></i>
+        <div class="bg-white rounded-xl shadow-lg p-4 border-l-4 border-blue-500 flex items-center space-x-3 max-w-sm">
+            <div class="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center">
+                <i id="notificationIcon" class="fa fa-check text-blue-500"></i>
             </div>
             <div>
                 <p id="notificationTitle" class="font-semibold text-gray-900">操作成功</p>
@@ -357,9 +334,8 @@
     </div>
 
     <script>
-        class RCTMailTracker {
+        class VolunteerTracker {
             constructor() {
-                // 内置志愿者数据库 (63人)
                 this.database = [
                     "郑嘉诚", "尹力慧", "郭雅森", "战友欣", "郭虔", "田馨", "王旭", "闫政婷", "王琦", "郭晓林",
                     "李怡菡", "刘丞哲", "何瑞", "柯尚冶", "黄俊森", "张紫钰", "姚盼玉", "张晓歌", "黄曼轩", "钟士秦",
@@ -367,530 +343,392 @@
                     "张钧玮", "李晨曦", "董边昕", "郭湘", "张译心", "彭瑶", "邱阅", "阳文佩", "刘晨桐", "张绩伟",
                     "周梦竺", "马晴", "于江媛", "王伊", "刘钥珊", "许梦晗", "陈文凯", "刘一", "谷正", "吴佳琪",
                     "赵卓异", "孙嘉晨", "陈颖", "马浩钧", "李雅霏", "张英特", "高飞", "罗立心", "陈政", "葛晨曦",
-                    "曹宇晴", "王维秀", "郭佳", "郭艺佳", "杨颜菊"
+                    "曹宇晴", "王维秀", "郭佳", "郭艺佳", "杨颜菊","杨恒"
                 ];
                 
-                this.analysisResults = [];
-                this.initializeElements();
-                this.initializeEventListeners();
-                this.initializeChart();
+                this.results = [];
+                this.chart = null;
+                this.init();
+            }
+
+            init() {
                 this.displayDatabase();
-                this.updateDisplay();
-            }
-
-            initializeElements() {
-                this.dataInput = document.getElementById('dataInput');
-                this.analyzeBtn = document.getElementById('analyzeBtn');
-                this.pasteBtn = document.getElementById('pasteBtn');
-                this.loadSampleBtn = document.getElementById('loadSampleBtn');
-                this.resetBtn = document.getElementById('resetBtn');
-                this.helpBtn = document.getElementById('helpBtn');
-                this.exportBtn = document.getElementById('exportBtn');
-                this.totalCount = document.getElementById('totalCount');
-                this.sentCount = document.getElementById('sentCount');
-                this.unsubscribedCount = document.getElementById('unsubscribedCount');
-                this.noUnsubscribeCount = document.getElementById('noUnsubscribeCount');
-                this.notSentCount = document.getElementById('notSentCount');
-                this.resultList = document.getElementById('resultList');
-                this.missingPersonsCard = document.getElementById('missingPersonsCard');
-                this.missingPersonsList = document.getElementById('missingPersonsList');
-                this.missingCount = document.getElementById('missingCount');
-                this.databaseList = document.getElementById('databaseList');
-                this.helpModal = document.getElementById('helpModal');
-                this.closeHelpBtn = document.getElementById('closeHelpBtn');
-                this.filterSelect = document.getElementById('filterSelect');
-                this.notification = document.getElementById('notification');
-                this.notificationTitle = document.getElementById('notificationTitle');
-                this.notificationMessage = document.getElementById('notificationMessage');
-                this.notificationIcon = document.getElementById('notificationIcon');
-            }
-
-            initializeEventListeners() {
-                this.analyzeBtn.addEventListener('click', () => this.analyzeData());
-                this.pasteBtn.addEventListener('click', () => this.pasteFromClipboard());
-                this.loadSampleBtn.addEventListener('click', () => this.loadSampleData());
-                this.resetBtn.addEventListener('click', () => this.resetAll());
-                this.exportBtn.addEventListener('click', () => this.exportResults());
-                this.helpBtn.addEventListener('click', () => this.showModal('help'));
-                this.closeHelpBtn.addEventListener('click', () => this.hideModal('help'));
-                this.filterSelect.addEventListener('change', () => this.updateDisplay());
-                this.helpModal.addEventListener('click', (e) => {
-                    if (e.target === this.helpModal) this.hideModal('help');
-                });
-                document.addEventListener('keydown', (e) => {
-                    if (e.key === 'Escape' && !this.helpModal.classList.contains('hidden')) {
-                        this.hideModal('help');
-                    }
-                });
-            }
-
-            initializeChart() {
-                const ctx = document.getElementById('statusChart').getContext('2d');
-                this.chart = new Chart(ctx, {
-                    type: 'doughnut',
-                    data: {
-                        labels: ['已发送', '未发送'],
-                        datasets: [{
-                            data: [0, 63],
-                            backgroundColor: ['#3B82F6', '#EF4444'],
-                            borderWidth: 0,
-                            hoverOffset: 10
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        plugins: {
-                            legend: {
-                                position: 'bottom',
-                                labels: {
-                                    padding: 20,
-                                    usePointStyle: true,
-                                    font: { size: 14 }
-                                }
-                            },
-                            tooltip: {
-                                callbacks: {
-                                    label: function(context) {
-                                        const label = context.label || '';
-                                        const value = context.parsed || 0;
-                                        const total = context.dataset.data.reduce((a, b) => a + b, 0);
-                                        const percentage = ((value / total) * 100).toFixed(1);
-                                        return `${label}: ${value}人 (${percentage}%)`;
-                                    }
-                                }
-                            }
-                        },
-                        animation: { animateRotate: true, duration: 1000 }
-                    }
-                });
+                this.bindEvents();
             }
 
             displayDatabase() {
-                this.databaseList.innerHTML = this.database.map((name, index) => `
-                    <div class="text-gray-700 py-1 px-2 hover:bg-gray-100 rounded">
-                        <span class="text-gray-400 text-xs mr-1">${index + 1}.</span>${name}
-                    </div>
-                `).join('');
+                const listEl = document.getElementById('databaseList');
+                listEl.innerHTML = this.database.map((name, idx) => 
+                    `<div class="flex items-center space-x-2">
+                        <span class="text-gray-400">${idx + 1}.</span>
+                        <span class="text-gray-700">${name}</span>
+                    </div>`
+                ).join('');
             }
 
-            async analyzeData() {
-                const input = this.dataInput.value.trim();
-                if (!input) {
-                    this.showNotification('错误', '请先输入接龙数据', 'error');
-                    return;
-                }
-
-                try {
-                    this.showNotification('处理中', '正在分析数据...', 'info');
-                    
-                    // 过滤并解析数据
-                    const lines = input.split('\n')
-                        .map(line => line.trim())
-                        .filter(line => {
-                            // 过滤空行
-                            if (!line) return false;
-                            // 过滤 #接龙 等非人名行
-                            if (line.includes('#接龙') || line.includes('#')) return false;
-                            return true;
-                        });
-                    
-                    const results = [];
-                    const processedNames = new Set();
-                    
-                    lines.forEach((line, index) => {
-                        const result = this.parseLine(line);
-                        if (result && this.database.includes(result.name)) {
-                            processedNames.add(result.name);
-                            results.push({
-                                ...result,
-                                index: index + 1,
-                                status: 'sent'
-                            });
-                        }
-                    });
-
-                    this.analysisResults = results;
-                    this.processedNames = processedNames;
-                    this.updateDisplay();
-                    
-                    const sentCount = results.length;
-                    const notSentCount = this.database.length - sentCount;
-                    this.showNotification('成功', `分析完成! 已发送: ${sentCount}人, 未发送: ${notSentCount}人`, 'success');
-                    
-                } catch (error) {
-                    console.error('分析数据时出错:', error);
-                    this.showNotification('错误', '数据格式错误,请检查输入', 'error');
-                }
-            }
-
-            parseLine(line) {
-                // 移除序号(如 "1. ", "2. " 等)
-                line = line.replace(/^\d+[\.\s、]+/, '').trim();
+            bindEvents() {
+                document.getElementById('analyzeBtn').addEventListener('click', () => this.analyze());
+                document.getElementById('pasteBtn').addEventListener('click', () => this.pasteFromClipboard());
+                document.getElementById('loadSampleBtn').addEventListener('click', () => this.loadSample());
+                document.getElementById('resetBtn').addEventListener('click', () => this.reset());
+                document.getElementById('helpBtn').addEventListener('click', () => this.showHelp());
+                document.getElementById('closeHelpBtn').addEventListener('click', () => this.hideHelp());
+                document.getElementById('filterSelect').addEventListener('change', (e) => this.filterResults(e.target.value));
+                document.getElementById('exportBtn').addEventListener('click', () => this.exportData());
                 
-                // 提取姓名(第一个词)
-                const parts = line.split(/[\s,，]+/);
-                if (parts.length === 0) return null;
-                
-                const name = parts[0].trim();
-                const statusText = line.substring(name.length).trim();
-                
-                // 判断详细状态
-                let detailStatus = 'unknown';
-                let statusClass = 'bg-blue-100 text-blue-700';
-                let statusIcon = 'fa-check';
-                
-                // 关键修复：先检查"无退订"（更具体），再检查"退订"（更宽泛）
-                // 因为"无退订"中包含"退订"二字，必须先判断
-                if (statusText.includes('无退订')) {
-                    detailStatus = 'no-unsubscribe';
-                    statusClass = 'bg-green-100 text-green-700';
-                    statusIcon = 'fa-heart';
-                } else if (statusText.includes('退订')) {
-                    detailStatus = 'unsubscribed';
-                    statusClass = 'bg-orange-100 text-orange-700';
-                    statusIcon = 'fa-ban';
-                }
-
-                return {
-                    name,
-                    statusText: statusText || '已发送',
-                    detailStatus,
-                    statusClass,
-                    statusIcon
-                };
-            }
-
-            updateDisplay() {
-                const sentCount = this.analysisResults.length;
-                const notSentCount = this.database.length - sentCount;
-                const noUnsubscribeCount = this.analysisResults.filter(r => r.detailStatus === 'no-unsubscribe').length;
-                const unsubscribedCount = this.analysisResults.filter(r => r.detailStatus === 'unsubscribed').length;
-                
-                this.animateNumber(this.sentCount, sentCount);
-                this.animateNumber(this.notSentCount, notSentCount);
-                this.animateNumber(this.noUnsubscribeCount, noUnsubscribeCount);
-                this.animateNumber(this.unsubscribedCount, unsubscribedCount);
-                
-                this.chart.data.datasets[0].data = [sentCount, notSentCount];
-                this.chart.update('active');
-                
-                this.updateResultList();
-                this.updateMissingPersons();
-            }
-
-            updateResultList() {
-                const filter = this.filterSelect.value;
-                let displayData = [];
-                
-                if (filter === 'all') {
-                    displayData = this.database.map(name => {
-                        const result = this.analysisResults.find(r => r.name === name);
-                        if (result) {
-                            return result;
-                        } else {
-                            return {
-                                name: name,
-                                statusText: '未发送',
-                                status: 'not-sent',
-                                detailStatus: 'not-sent',
-                                statusClass: 'bg-red-100 text-red-700',
-                                statusIcon: 'fa-times-circle'
-                            };
-                        }
-                    });
-                } else if (filter === 'sent') {
-                    displayData = this.analysisResults;
-                } else if (filter === 'not-sent') {
-                    const sentNames = new Set(this.analysisResults.map(r => r.name));
-                    displayData = this.database
-                        .filter(name => !sentNames.has(name))
-                        .map(name => ({
-                            name: name,
-                            statusText: '未发送',
-                            status: 'not-sent',
-                            detailStatus: 'not-sent',
-                            statusClass: 'bg-red-100 text-red-700',
-                            statusIcon: 'fa-times-circle'
-                        }));
-                } else {
-                    displayData = this.analysisResults.filter(r => r.detailStatus === filter);
-                }
-
-                if (displayData.length === 0) {
-                    this.resultList.innerHTML = `
-                        <div class="text-center text-gray-500 py-6">
-                            <i class="fa fa-filter text-2xl mb-2 opacity-50"></i>
-                            <p>没有匹配的数据</p>
-                        </div>
-                    `;
-                    return;
-                }
-
-                this.resultList.innerHTML = displayData.map((item, index) => `
-                    <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors border border-gray-200">
-                        <div class="flex items-center space-x-3">
-                            <span class="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center text-xs font-medium text-gray-700">
-                                ${index + 1}
-                            </span>
-                            <span class="font-medium text-gray-900">${item.name}</span>
-                        </div>
-                        <div class="flex items-center space-x-3">
-                            <span class="px-3 py-1 rounded-full text-xs font-medium ${item.statusClass} flex items-center">
-                                <i class="fa ${item.statusIcon} mr-1"></i>
-                                ${this.getStatusLabel(item.detailStatus || item.status)}
-                            </span>
-                            ${item.statusText && item.statusText !== '已发送' && item.statusText !== '未发送' ? `<span class="text-xs text-gray-500 max-w-xs truncate">${item.statusText}</span>` : ''}
-                        </div>
-                    </div>
-                `).join('');
-            }
-
-            updateMissingPersons() {
-                const sentNames = new Set(this.analysisResults.map(r => r.name));
-                const missingNames = this.database.filter(name => !sentNames.has(name));
-
-                if (missingNames.length === 0) {
-                    this.missingPersonsCard.classList.add('hidden');
-                    return;
-                }
-
-                this.missingPersonsCard.classList.remove('hidden');
-                this.missingCount.textContent = missingNames.length;
-
-                this.missingPersonsList.innerHTML = missingNames.map(name => `
-                    <div class="bg-red-50 border border-red-200 rounded-lg p-3 text-center hover:bg-red-100 transition-colors">
-                        <i class="fa fa-user-times text-red-500 mb-1"></i>
-                        <p class="text-sm font-medium text-red-900">${name}</p>
-                    </div>
-                `).join('');
-            }
-
-            getStatusLabel(status) {
-                const labels = {
-                    'sent': '已发送',
-                    'not-sent': '未发送',
-                    'no-unsubscribe': '无退订',
-                    'unsubscribed': '退订未发送',
-                    'unknown': '已发送'
-                };
-                return labels[status] || status;
+                document.getElementById('helpModal').addEventListener('click', (e) => {
+                    if (e.target.id === 'helpModal') this.hideHelp();
+                });
             }
 
             async pasteFromClipboard() {
                 try {
                     const text = await navigator.clipboard.readText();
-                    this.dataInput.value = text;
-                    this.showNotification('成功', '已从剪贴板粘贴数据', 'success');
-                } catch (error) {
-                    this.showNotification('提示', '请使用 Ctrl+V 粘贴', 'warning');
+                    document.getElementById('dataInput').value = text;
+                    this.showNotification('粘贴成功', '数据已从剪贴板粘贴', 'success');
+                } catch (err) {
+                    this.showNotification('粘贴失败', '请手动粘贴或授予剪贴板权限', 'error');
                 }
             }
 
-            loadSampleData() {
-                const sampleData = `#接龙
+            loadSample() {
+                const sample = `#接龙
 1. 郑嘉诚 已发送,退订的未发送
 2. 尹力慧 已发送,退订的未发送
 3. 郭雅森 已发送,退订的未发送
-4. 战友欣 已发送,退订的未发送
-5. 郭虔 已发送,退订的未发送
-6. 田馨 已发送,退订的未发送
-7. 王旭 已发送,退订的未发送
-8. 闫政婷 已发送,退订的未发送
-9. 王琦 已发送,退订的未发送
-10. 郭晓林 已发送 退订未发送
-11. 李怡菡 已发送 退订未发送
-12. 刘丞哲 已发送 退订未发送
-13. 何瑞 已发送 退订未发送
-14. 柯尚冶 已发送,退订未发送
-15. 黄俊森 已发送 退订未发送
-16. 张紫钰 已发送退订未发送
-17. 姚盼玉 已发送,退订未发送
+16. 张紫钰已发送退订未发送
 18. 张晓歌 已发送 无退订
 19. 黄曼轩 已发送 无退订
 20. 钟士秦 已发送 无退订
-21. 全文海 已发送 退订未发送
-22. 张玉娇  已发送 退订未发送
-23. 朱郑昊 已发送 无退订
-24. 施云峰 已发送 无退订
-25. 杨昊 已发送 无退订
-26. 赖伟丽 已发送 无退订
-27. 王晓妍 已发送 无退订
-28. 石松 已发送 无退订
-29. 谈潭 已发送 无退订
-30. 乔浩森 已发送 无退订
-31. 张钧玮 已发送 无退订
-32. 李晨曦 已发送 无退订
-33. 董边昕 已发送 退订未发送
-34. 郭湘 已发送 无退订
-35. 张译心 已发送 无退订
-36. 彭瑶 已发送 无退订
-37. 邱阅 已发送 无退订
-38. 阳文佩 已发送 无退订
-39. 刘晨桐 已发送 无退订
-40. 张绩伟 已发送 无退订
-41. 周梦竺 已发送 无退订
-42. 马晴 已发送 无退订
-43. 于江媛 已发送 无退订
-44. 王伊 已发送,退订的未发送
-45. 刘钥珊 已发送,无退订
-46. 许梦晗 已发送 无退订
-47. 陈文凯 已发送 无退订
-48. 刘一  已发送  无退订
-49. 谷正 已发送 无退订
-50. 吴佳琪 已发送 无退订
-51. 赵卓异 已发送 退订的未发送
-52. 孙嘉晨 已发送 无退订
-53. 陈颖 已发送 无退订
-54. 马浩钧 已发送 无退订
-55. 李雅霏 已发送 无退订
-56. 张英特,已发送,退订的未发送
-57. 高飞 已发送 无退订
-58. 罗立心 已发送,退订的未发送
-59. 陈政 已发送 无退订
-60. 葛晨曦 已发送 无退订
-61. 曹宇晴 已发送 无退订
-62. 王维秀 已发送,退订的未发送
-63.郭佳 已发送,退订的未发送`;
-
-                this.dataInput.value = sampleData;
-                this.showNotification('成功', '已加载示例接龙数据', 'success');
+46. 许梦晗已发送无退订`;
+                
+                document.getElementById('dataInput').value = sample;
+                this.showNotification('示例已加载', '请点击"开始分析"按钮', 'success');
             }
 
-            resetAll() {
-                if (confirm('确定要重置所有数据吗?')) {
-                    this.dataInput.value = '';
-                    this.analysisResults = [];
-                    this.processedNames = new Set();
-                    this.updateDisplay();
-                    this.showNotification('成功', '所有数据已重置', 'success');
+            parseLine(line) {
+                line = line.trim();
+                if (!line) return null;
+                
+                // 过滤掉包含 #接龙 或 # 的行
+                if (line.includes('#接龙') || line.includes('#') || line === '接龙') {
+                    return null;
                 }
+                
+                // 移除行首的序号 (如 "1. " 或 "16. ")
+                line = line.replace(/^\d+\.\s*/, '');
+                if (!line) return null;
+                
+                // 智能识别：检查行首是否包含数据库中的姓名
+                let matchedName = null;
+                for (const dbName of this.database) {
+                    if (line.startsWith(dbName)) {
+                        matchedName = dbName;
+                        break;
+                    }
+                }
+                
+                let name, statusText;
+                
+                if (matchedName) {
+                    // 如果找到匹配的姓名，使用它
+                    name = matchedName;
+                    statusText = line.substring(matchedName.length).trim();
+                } else {
+                    // 后备方案：使用原来的分割方法
+                    const parts = line.split(/[\s,，]+/);
+                    if (parts.length === 0) return null;
+                    
+                    name = parts[0];
+                    statusText = parts.slice(1).join(' ');
+                }
+                
+                // 清理状态文本开头的逗号和空格
+                statusText = statusText.replace(/^[,，\s]+/, '').trim();
+                
+                // 检查姓名是否在数据库中
+                if (!this.database.includes(name)) {
+                    return null;
+                }
+                
+                // 判断详细状态 - 关键：先检查"无退订"(更具体)，再检查"退订"(更宽泛)
+                let detailStatus = 'sent';
+                if (statusText.includes('无退订')) {
+                    detailStatus = 'no-unsubscribe';
+                } else if (statusText.includes('退订')) {
+                    detailStatus = 'unsubscribed';
+                }
+                
+                return { name, status: '已发送', detailStatus, rawStatus: statusText };
             }
 
-            exportResults() {
-                if (!this.analysisResults || this.analysisResults.length === 0) {
-                    this.showNotification('提示', '请先分析数据', 'warning');
+            analyze() {
+                const input = document.getElementById('dataInput').value;
+                if (!input.trim()) {
+                    this.showNotification('输入为空', '请粘贴群接龙数据', 'warning');
                     return;
                 }
 
-                const csvContent = this.generateCSV();
-                const blob = new Blob(['\ufeff' + csvContent], { type: 'text/csv;charset=utf-8;' });
-                const url = URL.createObjectURL(blob);
-                const link = document.createElement('a');
-                link.setAttribute('href', url);
-                link.setAttribute('download', `志愿者发送统计_${new Date().toISOString().slice(0, 10)}.csv`);
-                link.style.display = 'none';
-                document.body.appendChild(link);
-                link.click();
-                document.body.removeChild(link);
+                const lines = input.split('\n');
+                const foundNames = new Set();
+                this.results = [];
 
-                this.showNotification('成功', '数据已导出为CSV文件', 'success');
-            }
-
-            generateCSV() {
-                const headers = ['序号', '姓名', '发送状态', '详细状态', '原始文本'];
-                
-                const allData = this.database.map((name, index) => {
-                    const result = this.analysisResults.find(r => r.name === name);
-                    if (result) {
-                        return [
-                            index + 1,
-                            result.name,
-                            '已发送',
-                            this.getStatusLabel(result.detailStatus),
-                            result.statusText
-                        ];
-                    } else {
-                        return [
-                            index + 1,
-                            name,
-                            '未发送',
-                            '未发送',
-                            ''
-                        ];
+                lines.forEach(line => {
+                    const parsed = this.parseLine(line);
+                    if (parsed) {
+                        foundNames.add(parsed.name);
+                        this.results.push(parsed);
                     }
                 });
 
-                const csvRows = [
-                    headers.join(','),
-                    ...allData.map(row => row.map(cell => `"${String(cell).replace(/"/g, '""')}"`).join(','))
-                ];
-
-                return csvRows.join('\n');
-            }
-
-            showModal(type) {
-                if (type === 'help') {
-                    this.helpModal.classList.remove('hidden');
-                    this.helpModal.classList.add('flex');
-                }
-            }
-
-            hideModal(type) {
-                if (type === 'help') {
-                    this.helpModal.classList.add('hidden');
-                    this.helpModal.classList.remove('flex');
-                }
-            }
-
-            showNotification(title, message, type = 'info') {
-                this.notificationTitle.textContent = title;
-                this.notificationMessage.textContent = message;
-
-                const iconMap = {
-                    'success': 'fa-check-circle text-green-500',
-                    'error': 'fa-exclamation-circle text-red-500',
-                    'warning': 'fa-exclamation-triangle text-yellow-500',
-                    'info': 'fa-info-circle text-blue-500'
-                };
-
-                const borderColorMap = {
-                    'success': 'border-green-500',
-                    'error': 'border-red-500',
-                    'warning': 'border-yellow-500',
-                    'info': 'border-blue-500'
-                };
-
-                this.notificationIcon.className = `fa ${iconMap[type]}`;
-                this.notification.querySelector('div').className = `bg-white rounded-xl shadow-lg p-4 border-l-4 ${borderColorMap[type]} flex items-center space-x-3 max-w-sm`;
-
-                this.notification.classList.remove('hidden');
-
-                setTimeout(() => {
-                    this.notification.classList.add('hidden');
-                }, 3000);
-            }
-
-            animateNumber(element, target) {
-                const start = parseInt(element.textContent) || 0;
-                const duration = 800;
-                const startTime = Date.now();
-
-                const animate = () => {
-                    const elapsed = Date.now() - startTime;
-                    const progress = Math.min(elapsed / duration, 1);
-                    const easeProgress = progress < 0.5 
-                        ? 2 * progress * progress 
-                        : 1 - Math.pow(-2 * progress + 2, 2) / 2;
-                    const current = Math.floor(start + (target - start) * easeProgress);
-                    element.textContent = current;
-
-                    if (progress < 1) {
-                        requestAnimationFrame(animate);
-                    } else {
-                        element.textContent = target;
+                // 添加未发送的志愿者
+                this.database.forEach(name => {
+                    if (!foundNames.has(name)) {
+                        this.results.push({
+                            name,
+                            status: '未发送',
+                            detailStatus: 'not-sent',
+                            rawStatus: ''
+                        });
                     }
+                });
+
+                this.updateStatistics();
+                this.displayResults();
+                this.updateChart();
+                
+                const sent = this.results.filter(r => r.status === '已发送').length;
+                const noUnsub = this.results.filter(r => r.detailStatus === 'no-unsubscribe').length;
+                const unsub = this.results.filter(r => r.detailStatus === 'unsubscribed').length;
+                const notSent = this.results.filter(r => r.status === '未发送').length;
+                
+                this.showNotification(
+                    '分析完成',
+                    `已发送${sent}人 | 无退订${noUnsub}人 | 退订${unsub}人 | 未发送${notSent}人`,
+                    'success'
+                );
+            }
+
+            updateStatistics() {
+                const sent = this.results.filter(r => r.status === '已发送').length;
+                const notSent = this.results.filter(r => r.status === '未发送').length;
+                const noUnsubscribe = this.results.filter(r => r.detailStatus === 'no-unsubscribe').length;
+                const unsubscribed = this.results.filter(r => r.detailStatus === 'unsubscribed').length;
+
+                document.getElementById('sentCount').textContent = sent;
+                document.getElementById('notSentCount').textContent = notSent;
+                document.getElementById('noUnsubscribeCount').textContent = noUnsubscribe;
+                document.getElementById('unsubscribedCount').textContent = unsubscribed;
+
+                // 显示未发送名单
+                const missingCard = document.getElementById('missingPersonsCard');
+                const missingList = document.getElementById('missingPersonsList');
+                const missingCount = document.getElementById('missingCount');
+                
+                const missing = this.results.filter(r => r.status === '未发送');
+                if (missing.length > 0) {
+                    missingCard.classList.remove('hidden');
+                    missingCount.textContent = missing.length;
+                    missingList.innerHTML = missing.map(p => 
+                        `<div class="bg-yellow-50 border border-yellow-200 rounded-lg px-3 py-2 text-sm text-yellow-800 font-medium">
+                            ${p.name}
+                        </div>`
+                    ).join('');
+                } else {
+                    missingCard.classList.add('hidden');
+                }
+            }
+
+            displayResults(filter = 'all') {
+                const listEl = document.getElementById('resultList');
+                let filtered = this.results;
+
+                if (filter === 'sent') {
+                    filtered = this.results.filter(r => r.status === '已发送');
+                } else if (filter === 'not-sent') {
+                    filtered = this.results.filter(r => r.status === '未发送');
+                } else if (filter === 'no-unsubscribe') {
+                    filtered = this.results.filter(r => r.detailStatus === 'no-unsubscribe');
+                } else if (filter === 'unsubscribed') {
+                    filtered = this.results.filter(r => r.detailStatus === 'unsubscribed');
+                }
+
+                if (filtered.length === 0) {
+                    listEl.innerHTML = `
+                        <div class="text-center text-gray-500 py-8">
+                            <i class="fa fa-inbox text-4xl mb-3 opacity-50"></i>
+                            <p>无匹配数据</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                listEl.innerHTML = filtered.map(person => {
+                    let statusColor, icon, statusBg, detailLabel;
+                    
+                    if (person.status === '未发送') {
+                        statusColor = 'text-red-600';
+                        statusBg = 'bg-red-50 border-red-200';
+                        icon = 'times-circle';
+                        detailLabel = '未发送';
+                    } else {
+                        statusColor = 'text-blue-600';
+                        statusBg = 'bg-blue-50 border-blue-200';
+                        icon = 'check-circle';
+                        detailLabel = '已发送';
+                        
+                        if (person.detailStatus === 'no-unsubscribe') {
+                            statusColor = 'text-green-600';
+                            statusBg = 'bg-green-50 border-green-200';
+                            icon = 'heart';
+                            detailLabel = '无退订';
+                        } else if (person.detailStatus === 'unsubscribed') {
+                            statusColor = 'text-orange-600';
+                            statusBg = 'bg-orange-50 border-orange-200';
+                            icon = 'ban';
+                            detailLabel = '退订未发送';
+                        }
+                    }
+
+                    return `
+                        <div class="${statusBg} border rounded-xl p-4 hover:shadow-md transition-all duration-300">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center space-x-3">
+                                    <i class="fa fa-${icon} ${statusColor} text-lg"></i>
+                                    <div>
+                                        <p class="font-semibold text-gray-900">${person.name}</p>
+                                        <p class="text-sm ${statusColor}">${detailLabel}</p>
+                                    </div>
+                                </div>
+                                ${person.rawStatus ? `<span class="text-xs text-gray-500">${person.rawStatus}</span>` : ''}
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+            }
+
+            filterResults(filter) {
+                this.displayResults(filter);
+            }
+
+            updateChart() {
+                const ctx = document.getElementById('statusChart');
+                const sent = this.results.filter(r => r.status === '已发送').length;
+                const notSent = this.results.filter(r => r.status === '未发送').length;
+
+                if (this.chart) {
+                    this.chart.destroy();
+                }
+
+                this.chart = new Chart(ctx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['已发送', '未发送'],
+                        datasets: [{
+                            data: [sent, notSent],
+                            backgroundColor: ['#3B82F6', '#EF4444'],
+                            borderWidth: 0
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: true,
+                        plugins: {
+                            legend: {
+                                position: 'bottom',
+                                labels: {
+                                    padding: 20,
+                                    font: { size: 14 }
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+
+            exportData() {
+                const csv = ['姓名,状态,详细状态,原始状态']
+                    .concat(this.results.map(r => 
+                        `${r.name},${r.status},${this.getDetailStatusLabel(r.detailStatus)},${r.rawStatus || ''}`
+                    ))
+                    .join('\n');
+
+                const blob = new Blob(['\ufeff' + csv], { type: 'text/csv;charset=utf-8;' });
+                const link = document.createElement('a');
+                link.href = URL.createObjectURL(blob);
+                link.download = `志愿者统计_${new Date().toISOString().split('T')[0]}.csv`;
+                link.click();
+
+                this.showNotification('导出成功', 'CSV文件已下载', 'success');
+            }
+
+            getDetailStatusLabel(detailStatus) {
+                const labels = {
+                    'sent': '已发送',
+                    'no-unsubscribe': '无退订',
+                    'unsubscribed': '退订未发送',
+                    'not-sent': '未发送'
+                };
+                return labels[detailStatus] || detailStatus;
+            }
+
+            reset() {
+                if (confirm('确定要重置所有数据吗？')) {
+                    document.getElementById('dataInput').value = '';
+                    this.results = [];
+                    this.updateStatistics();
+                    document.getElementById('resultList').innerHTML = `
+                        <div class="text-center text-gray-500 py-8">
+                            <i class="fa fa-inbox text-4xl mb-3 opacity-50"></i>
+                            <p>请粘贴接龙数据并点击分析按钮</p>
+                        </div>
+                    `;
+                    if (this.chart) {
+                        this.chart.destroy();
+                        this.chart = null;
+                    }
+                    document.getElementById('missingPersonsCard').classList.add('hidden');
+                    this.showNotification('已重置', '所有数据已清空', 'success');
+                }
+            }
+
+            showHelp() {
+                document.getElementById('helpModal').classList.remove('hidden');
+                document.getElementById('helpModal').classList.add('flex');
+            }
+
+            hideHelp() {
+                document.getElementById('helpModal').classList.add('hidden');
+                document.getElementById('helpModal').classList.remove('flex');
+            }
+
+            showNotification(title, message, type = 'success') {
+                const notification = document.getElementById('notification');
+                const icon = document.getElementById('notificationIcon');
+                const titleEl = document.getElementById('notificationTitle');
+                const messageEl = document.getElementById('notificationMessage');
+
+                const icons = {
+                    success: 'fa-check',
+                    error: 'fa-times',
+                    warning: 'fa-exclamation-triangle'
                 };
 
-                animate();
+                icon.className = `fa ${icons[type] || icons.success}`;
+                titleEl.textContent = title;
+                messageEl.textContent = message;
+
+                notification.classList.remove('hidden');
+                setTimeout(() => notification.classList.add('hidden'), 4000);
             }
         }
 
+        // 初始化应用
         document.addEventListener('DOMContentLoaded', () => {
-            new RCTMailTracker();
+            new VolunteerTracker();
         });
     </script>
-    <!-- 底部 -->
+	 <!-- 底部 -->
     <footer class="footer">
     由 Karcen Zheng 制作，<a href="https://karcen.github.io/zhengjiacheng.github.io/" target="_blank">联系我</a>
 	</footer>
